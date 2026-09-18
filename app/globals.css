@@ -1,0 +1,173 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens.
+ *
+ * Tailwind v4 is configured in CSS rather than a JS config file. Anything
+ * declared in `@theme` becomes a utility class, so `--color-brand-600` yields
+ * `bg-brand-600`, `text-brand-600`, `border-brand-600` and so on.
+ *
+ * Tailwind's built-in neutral palettes are used as-is. Only the brand scale
+ * and the semantic layer are defined here, because redefining greys we would
+ * not change is code with no reason to exist.
+ */
+@theme {
+  /* "Ink" — a deep, document-like blue, chosen to read as a stationery brand
+     rather than a generic SaaS indigo. */
+  --color-brand-50: #eef4fb;
+  --color-brand-100: #d6e4f5;
+  --color-brand-200: #b0cbeb;
+  --color-brand-300: #7fa9dc;
+  --color-brand-400: #4d83c8;
+  --color-brand-500: #2f66b0;
+  --color-brand-600: #245291;
+  --color-brand-700: #1d4275;
+  --color-brand-800: #193659;
+  --color-brand-900: #172c46;
+  --color-brand-950: #0f1c2d;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
+}
+
+/*
+ * Semantic layer.
+ *
+ * Components reference intent (`bg-surface`) rather than a raw palette value
+ * (`bg-slate-100`). Dark mode then becomes a token swap instead of a rewrite,
+ * and a palette change does not require touching components.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-solid: var(--danger-solid);
+  --color-on-danger: var(--on-danger);
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-info: var(--info);
+  --color-info-surface: var(--info-surface);
+}
+
+:root {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #101319;
+  --surface: #f6f8fa;
+  --surface-raised: #ffffff;
+  --muted: #5a6472;
+  --line: #e2e6ec;
+  --line-strong: #c8cfd9;
+
+  --primary: #245291;
+  --primary-hover: #1d4275;
+  --on-primary: #ffffff;
+
+  /* `--danger` is the readable text/icon colour; `--danger-solid` is the
+     filled-button background. They diverge in dark mode, where a colour that
+     reads well on a dark surface is far too pale to sit behind white text. */
+  --danger: #b3261e;
+  --danger-surface: #fdecea;
+  --danger-solid: #b3261e;
+  --on-danger: #ffffff;
+  --success: #1b6e3c;
+  --success-surface: #e8f5ec;
+  --warning: #8a5a00;
+  --warning-surface: #fdf3e2;
+  --info: #245291;
+  --info-surface: #eef4fb;
+}
+
+/*
+ * Dark tokens live on `html.dark`, which the blocking theme script sets
+ * before first paint. The media query is the no-JS / pre-script fallback:
+ * `html:not(.light)` so an explicit light preference can still win over a
+ * dark operating system.
+ */
+html.dark {
+  color-scheme: dark;
+  --background: #0d1014;
+  --foreground: #e8eaee;
+  --surface: #15181e;
+  --surface-raised: #1b1f27;
+  --muted: #98a1af;
+  --line: #262b34;
+  --line-strong: #39404c;
+
+  --primary: #7fa9dc;
+  --primary-hover: #a3c2e8;
+  --on-primary: #0d1014;
+
+  --danger: #f2b8b5;
+  --danger-surface: #2c1614;
+  --danger-solid: #a52620;
+  --on-danger: #ffffff;
+  --success: #8fd6a8;
+  --success-surface: #11241a;
+  --warning: #e8c17a;
+  --warning-surface: #2a1f0d;
+  --info: #a3c2e8;
+  --info-surface: #14202e;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    color-scheme: dark;
+    --background: #0d1014;
+    --foreground: #e8eaee;
+    --surface: #15181e;
+    --surface-raised: #1b1f27;
+    --muted: #98a1af;
+    --line: #262b34;
+    --line-strong: #39404c;
+
+    --primary: #7fa9dc;
+    --primary-hover: #a3c2e8;
+    --on-primary: #0d1014;
+
+    --danger: #f2b8b5;
+    --danger-surface: #2c1614;
+    --danger-solid: #a52620;
+    --on-danger: #ffffff;
+    --success: #8fd6a8;
+    --success-surface: #11241a;
+    --warning: #e8c17a;
+    --warning-surface: #2a1f0d;
+    --info: #a3c2e8;
+    --info-surface: #14202e;
+  }
+}
+
+/* A visible focus ring is a WCAG requirement and the editor will be heavily
+   keyboard-driven. Setting it once globally means no component can forget it. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
