@@ -487,6 +487,20 @@ leave the query on the table.
 
 ---
 
+## ADR-031 — Bing Webmaster verification via `public/BingSiteAuth.xml`
+
+**Decision.** Place Bing's `BingSiteAuth.xml` in `public/` so the static
+export serves it at the site root (`/BingSiteAuth.xml`).
+
+**Alternatives.** Meta tag in `app/layout.tsx`. DNS TXT on a custom domain.
+
+**Rationale.** Bing issues a one-file proof for URL-prefix properties. Files
+under `public/` are copied into `out/` unchanged, which matches Hosting's
+document root. The token is meant to be public; keep the file committed so
+redeploys do not break verification.
+
+---
+
 ## ADR-009 — No unit tests; static analysis as the quality gate
 
 **Decision.** Quality gates are `tsc --noEmit` and ESLint. No unit or
