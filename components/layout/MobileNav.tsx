@@ -6,6 +6,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink';
 import { CloseIcon, MenuIcon } from '@/components/ui/icon/icons';
 import { VisuallyHidden } from '@/components/ui/VisuallyHidden';
 import { PRIMARY_NAV } from '@/constants/navigation';
+import { ROUTES } from '@/constants/routes';
 import { Z_INDEX } from '@/constants/ui';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -71,8 +72,8 @@ export function MobileNav() {
               {item.label}
             </Link>
           ))}
-          <ButtonLink href="/#tools" onClick={close} className="mt-2">
-            Get started
+          <ButtonLink href={ROUTES.editor} onClick={close} className="mt-2">
+            Open PDF editor
           </ButtonLink>
         </nav>
       </div>

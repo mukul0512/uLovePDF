@@ -3,7 +3,7 @@ import { Container } from '@/components/ui/Container';
 const STEPS = [
   {
     title: 'Pick a tool',
-    body: 'Choose the operation you need. Nothing has left your device at this point, or at any point after it.',
+    body: 'Open the PDF editor or choose merge, split, rotate or compress. Nothing has left your device at this point, or at any point after it.',
   },
   {
     title: 'Add your PDF',
@@ -20,7 +20,7 @@ export function HowItWorks() {
     <section id="how-it-works" aria-labelledby="how-it-works-heading" className="scroll-mt-20">
       <Container width="wide" className="py-16 sm:py-20">
         <h2 id="how-it-works-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          How it works
+          How this online PDF editor works
         </h2>
 
         {/* An ordered list, because the steps genuinely happen in sequence.

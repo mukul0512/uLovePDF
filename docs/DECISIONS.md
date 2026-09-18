@@ -467,6 +467,26 @@ product page.
 
 ---
 
+## ADR-030 — SEO copy lives in the catalogue, editor URL is `/pdf-editor`
+
+**Decision.** Each tool carries `headline`, `seoTitle` and `faqs` next to the
+UI copy. The editor route is `/pdf-editor`. Firebase Hosting 301s `/editor`
+to that URL. Home H1, titles and FAQs lead with "free online PDF editor"
+while keeping the no-upload promise in the same sentence.
+
+**Alternatives.** Hand-written meta tags and FAQ markup per page. Keep
+`/editor` and rely on the title tag alone. A blog or marketing site on a
+second origin.
+
+**Rationale.** "PDF editor" / "online PDF editor" are the queries the product
+must be eligible for. The URL, H1, title and FAQ copy have to say that in one
+voice, and the catalogue is already the source of truth (ADR-029). A blog
+would add pages we cannot keep honest. Rank is not guaranteed by markup —
+Google still needs crawl, links and time — but soft titles like "Edit PDF"
+leave the query on the table.
+
+---
+
 ## ADR-009 — No unit tests; static analysis as the quality gate
 
 **Decision.** Quality gates are `tsc --noEmit` and ESLint. No unit or

@@ -13,7 +13,7 @@ export const ROUTES = {
   split: '/split-pdf',
   rotate: '/rotate-pdf',
   compress: '/compress-pdf',
-  editor: '/editor',
+  editor: '/pdf-editor',
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

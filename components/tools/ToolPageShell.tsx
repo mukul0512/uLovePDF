@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { Badge } from '@/components/ui/Badge';
 import { Container } from '@/components/ui/Container';
 import { CheckIcon, ChevronRightIcon, ShieldCheckIcon } from '@/components/ui/icon/icons';
+import { buildBreadcrumbJsonLd, buildFaqJsonLd } from '@/config/metadata';
 import { ROUTES } from '@/constants/routes';
 import { TOOL_LIST, type ToolDefinition } from '@/constants/tools';
+import { logger } from '@/utils/commonFunctions/logger';
 import { ToolWorkspace } from './ToolWorkspace';
 
 /**
@@ -21,8 +24,13 @@ import { ToolWorkspace } from './ToolWorkspace';
 export function ToolPageShell({ tool, children }: { tool: ToolDefinition; children?: ReactNode }) {
   const otherTools = TOOL_LIST.filter((candidate) => candidate.id !== tool.id);
 
+  logger.debug('app', 'tool page', { id: tool.id, href: tool.href, faqCount: tool.faqs.length });
+
   return (
     <Container className="flex flex-col gap-12 py-10 sm:py-14">
+      <JsonLd data={buildBreadcrumbJsonLd(tool)} />
+      {tool.faqs.length > 0 ? <JsonLd data={buildFaqJsonLd(tool.faqs)} /> : null}
+
       <nav aria-label="Breadcrumb">
         <ol className="text-muted flex items-center gap-1.5 text-sm">
           <li>
@@ -45,7 +53,7 @@ export function ToolPageShell({ tool, children }: { tool: ToolDefinition; childr
           Runs on your device
         </Badge>
         <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          {tool.name}
+          {tool.headline}
         </h1>
         <p className="text-muted text-lg leading-relaxed text-pretty">{tool.description}</p>
       </header>
@@ -65,6 +73,22 @@ export function ToolPageShell({ tool, children }: { tool: ToolDefinition; childr
           ))}
         </ul>
       </section>
+
+      {tool.faqs.length > 0 ? (
+        <section aria-labelledby="tool-faq" className="max-w-2xl">
+          <h2 id="tool-faq" className="text-xl font-semibold tracking-tight">
+            Frequently asked questions
+          </h2>
+          <dl className="mt-6 flex flex-col gap-6">
+            {tool.faqs.map((faq) => (
+              <div key={faq.question}>
+                <dt className="font-semibold">{faq.question}</dt>
+                <dd className="text-muted mt-2 text-sm leading-relaxed">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
 
       <section aria-labelledby="other-tools">
         <h2 id="other-tools" className="text-xl font-semibold tracking-tight">

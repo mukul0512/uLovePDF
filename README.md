@@ -137,7 +137,7 @@ unlocked in the app.
 
 ## The editor
 
-`/editor` holds the document as a list of instructions — which source page,
+`/pdf-editor` holds the document as a list of instructions — which source page,
 turned how far — rather than as modified bytes. Rotating, deleting and
 reordering are operations on that list, so they are instant on a 300-page
 file and, being plain data, can be replayed by undo.

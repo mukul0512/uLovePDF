@@ -5,7 +5,7 @@ import { TOOLS } from '@/constants/tools';
 
 export const metadata = buildToolMetadata(TOOLS.editor);
 
-export default function EditorPage() {
+export default function PdfEditorPage() {
   return (
     <ToolPageShell tool={TOOLS.editor}>
       <EditorWorkspace />

@@ -4,6 +4,18 @@
     "trailingSlash": true,
     "cleanUrls": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "redirects": [
+      {
+        "source": "/editor",
+        "destination": "/pdf-editor/",
+        "type": 301
+      },
+      {
+        "source": "/editor/**",
+        "destination": "/pdf-editor/",
+        "type": 301
+      }
+    ],
     "headers": [
       {
         "source": "**",

@@ -3,6 +3,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink';
 import { Container } from '@/components/ui/Container';
 import { ShieldCheckIcon } from '@/components/ui/icon/icons';
 import { siteConfig } from '@/config/site';
+import { ROUTES } from '@/constants/routes';
 
 export function Hero() {
   return (
@@ -18,16 +19,16 @@ export function Hero() {
         </h1>
 
         <p className="text-muted max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">
-          Merge, split, rotate and compress PDFs in seconds. Every operation runs inside your
-          browser, so your documents never touch a server.
+          Free online PDF editor plus merge, split, rotate and compress. Every operation runs on your
+          device, so your documents never touch a server.
         </p>
 
         <div className="mt-2 flex flex-wrap gap-3">
-          <ButtonLink href="/#tools" size="lg">
-            Choose a tool
+          <ButtonLink href={ROUTES.editor} size="lg">
+            Open PDF editor
           </ButtonLink>
-          <ButtonLink href="/#how-it-works" size="lg" variant="secondary">
-            How it works
+          <ButtonLink href="/#tools" size="lg" variant="secondary">
+            Choose a tool
           </ButtonLink>
         </div>
       </Container>

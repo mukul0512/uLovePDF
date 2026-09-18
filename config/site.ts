@@ -7,9 +7,9 @@
 export const siteConfig = {
   name: 'Recto',
   /** A recto is the front side of a leaf in a bound document. */
-  tagline: 'PDF tools that never upload your files',
+  tagline: 'Free online PDF editor that never uploads your files',
   description:
-    'Merge, split, rotate, annotate and sign PDFs directly in your browser. Your documents are processed on your device and are never uploaded to a server.',
+    'Free online PDF editor — annotate, highlight and sign in your browser. Also merge, split, rotate and compress PDFs on your device. No upload, no account.',
   locale: 'en',
   /** Override with NEXT_PUBLIC_SITE_URL when a custom domain is attached. */
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://recto.page').replace(/\/+$/, ''),

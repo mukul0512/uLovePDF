@@ -34,7 +34,7 @@ export default function OpenGraphImage() {
           {siteConfig.tagline}
         </div>
         <div style={{ marginTop: 20, fontSize: 26, color: '#b0cbeb' }}>
-          Merge, split, rotate and compress in the browser.
+          Annotate, sign, merge, split, rotate and compress — no upload.
         </div>
       </div>
     </div>,

@@ -1,7 +1,18 @@
 import { Hero } from '@/components/home/Hero';
+import { HomeFaq } from '@/components/home/HomeFaq';
 import { HowItWorks } from '@/components/home/HowItWorks';
 import { PrivacySection } from '@/components/home/PrivacySection';
+import { SeoIntro } from '@/components/home/SeoIntro';
 import { ToolsSection } from '@/components/home/ToolsSection';
+import { buildPageMetadata } from '@/config/metadata';
+import { siteConfig } from '@/config/site';
+import { ROUTES } from '@/constants/routes';
+
+export const metadata = buildPageMetadata({
+  title: 'Free Online PDF Editor',
+  description: siteConfig.description,
+  path: ROUTES.home,
+});
 
 /**
  * Landing page.
@@ -15,7 +26,9 @@ export default function HomePage() {
     <>
       <Hero />
       <ToolsSection />
+      <SeoIntro />
       <HowItWorks />
+      <HomeFaq />
       <PrivacySection />
     </>
   );

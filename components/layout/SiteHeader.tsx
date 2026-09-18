@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ButtonLink } from '@/components/ui/ButtonLink';
 import { Container } from '@/components/ui/Container';
 import { PRIMARY_NAV } from '@/constants/navigation';
+import { ROUTES } from '@/constants/routes';
 import { Z_INDEX } from '@/constants/ui';
 import { Logo } from './Logo';
 import { MobileNav } from './MobileNav';
@@ -44,8 +45,8 @@ export function SiteHeader() {
         <div className="flex items-center gap-1">
           <ThemeToggle />
           <div className="hidden md:block">
-            <ButtonLink href="/#tools" size="sm">
-              Get started
+            <ButtonLink href={ROUTES.editor} size="sm">
+              Open PDF editor
             </ButtonLink>
           </div>
           <MobileNav />

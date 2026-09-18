@@ -31,9 +31,21 @@ export interface ToolFileSelection {
   readonly minFilesHint: string;
 }
 
+export interface ToolFaq {
+  readonly question: string;
+  readonly answer: string;
+}
+
 export interface ToolDefinition {
   readonly id: ToolId;
   readonly name: string;
+  /** Visible H1. Often a little longer than `name` so the primary query is explicit. */
+  readonly headline: string;
+  /**
+   * Document title (the `%s` in the layout template). Keep it under ~60
+   * characters and lead with the query the page should rank for.
+   */
+  readonly seoTitle: string;
   /** `null` until the route exists, so the UI can render it as unavailable. */
   readonly href: Route | null;
   readonly category: ToolCategoryId;
@@ -47,6 +59,8 @@ export interface ToolDefinition {
   readonly description: string;
   /** Honest caveats, shown on the tool page. Users deserve these up front. */
   readonly notes: readonly string[];
+  /** Visible FAQ copy, also emitted as FAQPage JSON-LD. */
+  readonly faqs: readonly ToolFaq[];
 }
 
 export const TOOL_CATEGORIES: readonly ToolCategory[] = [
@@ -62,8 +76,8 @@ export const TOOL_CATEGORIES: readonly ToolCategory[] = [
   },
   {
     id: 'edit',
-    label: 'Edit and annotate',
-    description: 'Add text, drawings, highlights and signatures on top of a page.',
+    label: 'PDF editor',
+    description: 'Annotate, highlight and sign a PDF in the browser.',
   },
 ];
 
@@ -71,6 +85,8 @@ export const TOOLS = {
   merge: {
     id: 'merge',
     name: 'Merge PDF',
+    headline: 'Merge PDF files online',
+    seoTitle: 'Merge PDF Files Online — Free',
     href: ROUTES.merge,
     category: 'organise',
     iconKey: 'merge',
@@ -82,16 +98,35 @@ export const TOOLS = {
     actionLabel: 'Merge PDFs',
     summary: 'Combine several PDFs into a single document.',
     description:
-      'Combine several PDF files into one document in the order you choose. Pages are copied across without re-encoding, so nothing loses quality.',
+      'Merge PDF files in your browser. Combine documents in the order you choose. Pages are copied without re-encoding, so nothing loses quality, and nothing is uploaded.',
     notes: [
       'Pages are copied without re-compression, so text and images keep their original quality.',
       'Bookmarks and form fields from the source files are not carried over yet.',
       'Encrypted PDFs must be unlocked in another application first.',
     ],
+    faqs: [
+      {
+        question: 'Can I merge PDF files without uploading them?',
+        answer:
+          'Yes. Recto reads each file on your device with the browser File API and writes the combined PDF in memory. There is no upload, because there is no server that could receive one.',
+      },
+      {
+        question: 'Does merging PDFs reduce quality?',
+        answer:
+          'No. Pages are copied into the new file without re-compressing images or re-encoding text, so the output matches the sources.',
+      },
+      {
+        question: 'How many PDFs can I combine?',
+        answer:
+          'Add at least two files. The practical limit is your device memory, not a server quota — this tool never sends the documents away.',
+      },
+    ],
   },
   split: {
     id: 'split',
     name: 'Split PDF',
+    headline: 'Split PDF files',
+    seoTitle: 'Split PDF Online — Extract Pages',
     href: ROUTES.split,
     category: 'organise',
     iconKey: 'split',
@@ -103,15 +138,34 @@ export const TOOLS = {
     actionLabel: 'Split PDF',
     summary: 'Separate a PDF into pages or custom ranges.',
     description:
-      'Break one PDF into separate files, either a file per page or by the page ranges you specify. Useful for pulling a single contract or chapter out of a larger document.',
+      'Split a PDF in your browser into single pages or custom ranges. Pull a contract or chapter out of a larger document without uploading the file.',
     notes: [
       'Each output file keeps the original page size and orientation.',
       'Splitting into many files produces a ZIP archive so you get one download.',
+    ],
+    faqs: [
+      {
+        question: 'How do I split a PDF into separate files?',
+        answer:
+          'Open the PDF, choose one file per page or enter page ranges, then download. Ranges become individual PDFs; many files are packed into one ZIP.',
+      },
+      {
+        question: 'Is the original PDF uploaded when I split it?',
+        answer:
+          'No. The file stays in the tab. Split is a local copy of selected pages into new documents.',
+      },
+      {
+        question: 'Can I extract a single page from a PDF?',
+        answer:
+          'Yes. Enter that page number as a range of one. You get a new PDF that contains only that page.',
+      },
     ],
   },
   rotate: {
     id: 'rotate',
     name: 'Rotate PDF',
+    headline: 'Rotate PDF pages',
+    seoTitle: 'Rotate PDF Online',
     href: ROUTES.rotate,
     category: 'organise',
     iconKey: 'rotate',
@@ -123,15 +177,34 @@ export const TOOLS = {
     actionLabel: 'Rotate PDF',
     summary: 'Turn sideways pages the right way up.',
     description:
-      'Rotate some or all pages in 90 degree steps and save the corrected orientation permanently, so the document opens upright everywhere.',
+      'Rotate PDF pages in your browser in 90 degree steps and save the upright orientation into the file. Nothing is uploaded.',
     notes: [
       'Rotation is stored in the page metadata, so the file size does not change.',
-      'Every page is turned by the same amount. To rotate pages independently, use the editor.',
+      'Every page is turned by the same amount. To rotate pages independently, use the PDF editor.',
+    ],
+    faqs: [
+      {
+        question: 'How do I rotate a PDF the right way up?',
+        answer:
+          'Add the file, choose 90, 180 or 270 degrees, then download. The new orientation is written into the page so other readers open it upright.',
+      },
+      {
+        question: 'Does rotating a PDF change the file size?',
+        answer:
+          'No. This tool updates page rotation metadata rather than redrawing the content, so the size stays the same.',
+      },
+      {
+        question: 'Can I rotate pages independently?',
+        answer:
+          'This page turns every page by the same amount. For mixed orientations, open the PDF editor and rotate pages one at a time.',
+      },
     ],
   },
   compress: {
     id: 'compress',
     name: 'Compress PDF',
+    headline: 'Compress PDF files',
+    seoTitle: 'Compress PDF Online',
     href: ROUTES.compress,
     category: 'optimise',
     iconKey: 'compress',
@@ -143,16 +216,35 @@ export const TOOLS = {
     actionLabel: 'Compress PDF',
     summary: 'Reduce file size for email and upload limits.',
     description:
-      'Shrink a PDF by re-encoding embedded images at a lower resolution and removing data the document does not need.',
+      'Compress a PDF in your browser by re-encoding images and dropping unused data. See the new size before you download. The file never leaves this device.',
     notes: [
       'Scanned and image-heavy documents shrink the most. Text-only PDFs are already efficient and may barely change.',
       'This is not equivalent to a desktop tool like Ghostscript: fonts are not re-subset, because that cannot be done reliably in a browser.',
       'You will see the resulting size before deciding whether to download it.',
     ],
+    faqs: [
+      {
+        question: 'How can I compress a PDF without uploading it?',
+        answer:
+          'Open the file here. Compression runs in the tab: embedded images are re-encoded and unused objects are dropped, then you download the smaller file.',
+      },
+      {
+        question: 'Will compressing a PDF make text blurry?',
+        answer:
+          'Text stays vector. Size comes down mainly on photos and scans. A text-only PDF may barely change, which is expected rather than a failure.',
+      },
+      {
+        question: 'Is this the same as Ghostscript compression?',
+        answer:
+          'No. A browser cannot reliably re-subset fonts the way a desktop toolchain can. You see the output size first so you can decide whether it is enough.',
+      },
+    ],
   },
   editor: {
     id: 'editor',
-    name: 'Edit PDF',
+    name: 'PDF Editor',
+    headline: 'Online PDF editor',
+    seoTitle: 'Free Online PDF Editor',
     href: ROUTES.editor,
     category: 'edit',
     iconKey: 'edit',
@@ -164,10 +256,37 @@ export const TOOLS = {
     actionLabel: 'Open in editor',
     summary: 'Add text, shapes, highlights and signatures.',
     description:
-      'Annotate a PDF with text, freehand drawing, highlights, shapes and a signature, then export a new file with your changes applied.',
+      'Free online PDF editor in your browser. Annotate, highlight, draw shapes and sign a PDF, then download a new file. Your document stays on this device and is never uploaded.',
     notes: [
       'Annotations are drawn on top of the page. Editing the existing text of a PDF in place is not supported.',
       'Download writes a new file. Existing form fields and bookmarks are not carried over yet.',
+    ],
+    faqs: [
+      {
+        question: 'Is Recto a free online PDF editor?',
+        answer:
+          'Yes. This free online PDF editor runs in your browser with no account and no payment. Open a file, mark it up, and download the result.',
+      },
+      {
+        question: 'Does this PDF editor upload my files?',
+        answer:
+          'No. The browser reads the PDF with the File API and keeps it in memory. Recto is static files on a CDN; there is no upload API.',
+      },
+      {
+        question: 'Can I edit a PDF online without creating an account?',
+        answer:
+          'Yes. There is no sign-up. Choose a PDF from disk, add text, highlights, shapes or a signature, then download. Close the tab and the file is gone from memory.',
+      },
+      {
+        question: 'Can I edit existing text in a PDF?',
+        answer:
+          'Not in place. You add text, highlights, shapes and signatures on top of the page, then export a new file. That is an honest limit of a browser editor.',
+      },
+      {
+        question: 'Can I sign a PDF in my browser?',
+        answer:
+          'Yes. Draw a signature on the pad, place it on the page, and download. The signature is stored as vector strokes, not an uploaded image.',
+      },
     ],
   },
 } as const satisfies Record<ToolId, ToolDefinition>;

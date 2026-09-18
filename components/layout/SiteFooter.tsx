@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { ShieldCheckIcon } from '@/components/ui/icon/icons';
 import { siteConfig } from '@/config/site';
-import { LEGAL_NAV, PRIMARY_NAV } from '@/constants/navigation';
+import { LEGAL_NAV, PRIMARY_NAV, TOOL_NAV } from '@/constants/navigation';
 import { Logo } from './Logo';
 
 // Evaluated during `next build`, so a static export freezes this until the
@@ -23,6 +23,18 @@ export function SiteFooter() {
             <nav aria-label="Product" className="flex flex-col gap-2">
               <h2 className="text-foreground text-sm font-semibold">Product</h2>
               {PRIMARY_NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-muted hover:text-foreground text-sm transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <nav aria-label="PDF tools" className="flex flex-col gap-2">
+              <h2 className="text-foreground text-sm font-semibold">PDF tools</h2>
+              {TOOL_NAV.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
